@@ -25,6 +25,16 @@
     ?>
 
     <?php var_dump($post) ?>
+    
+    <h2>Les commentaires</h2>
+   
+    <?php foreach($db->prepare("SELECT * FROM comments WHERE post_id=?",[$id],'Comment',false) as $com) : ?>
+        
+    .   <?php var_dump($com) ?>
+    
+    <?php endforeach; ?>
+
+
 
 </body>
 </html>
