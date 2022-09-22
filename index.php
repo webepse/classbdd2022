@@ -13,12 +13,15 @@
     <title>Document</title>
 </head>
 <body>
-    <?php 
-        $req = $db->query("SELECT * FROM posts");
+    <?php foreach($db->query("SELECT * FROM posts",'Article') as $post) : ?>
+        <div class="post">
+            <div class="date"><?= $post->creation_date ?></div>
+            <a href='<?= $post->getURL() ?>'><?= $post->title ?></a>
+            <div class="content">
+                <?= nl2br($post->getExtrait()) ?>
+            </div>
+        </div>
 
-        var_dump($req);
-        var_dump($req[0]->title);
-
-    ?>
+    <?php endforeach; ?>
 </body>
 </html>

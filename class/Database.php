@@ -28,13 +28,28 @@ class Database{
         return $this->bdd;
     }
 
-    public function query($statement)
+    public function query($statement,$className)
     {
         $req = $this->getBDD()->query($statement);
-        $datas = $req->fetchAll(PDO::FETCH_OBJ);
+        $datas = $req->fetchAll(PDO::FETCH_CLASS,$className);
+        $req->closeCursor();
         return $datas;
     }
 
+    public function prepare(string $statement,array $values,string $className, bool $one=false)
+    {
+        $req = $this->getBDD()->prepare($statement);
+        $req->execute($values);
+        $req->setFetchMode(PDO::FETCH_CLASS,$className);
+        if($one){
+            $datas = $req->fetch();
+        }else{
+            $datas = $req->fetchAll();
+        }
+        $req->closeCursor();
+        return $datas;
+
+    }
 
 
 
