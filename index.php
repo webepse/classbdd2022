@@ -1,4 +1,5 @@
 <?php
+namespace App;
     require "class/Autoloader.php";
     Autoloader::register();
 
@@ -13,7 +14,7 @@
     <title>Document</title>
 </head>
 <body>
-    <?php foreach($db->query("SELECT * FROM posts",'Article') as $post) : ?>
+    <?php foreach($db->query("SELECT * FROM posts",Article::class) as $post) : ?>
         <div class="post">
             <div class="date"><?= $post->creation_date ?></div>
             <a href='<?= $post->getURL() ?>'><?= $post->title ?></a>

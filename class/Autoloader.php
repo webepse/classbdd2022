@@ -1,15 +1,28 @@
-<?php 
+<?php
+ namespace App;
+/**
+ * Class Autoloader
+ * @package Tutoriel
+ */
 class Autoloader{
-    public static function register()
-    {
-        spl_autoload_register([__CLASS__,'autoload']);
-        // prend ici un tableau en paramètre, le nom de la classe et le nom de la méthode. Pour récupérer dynamiquement le nom de la classe que l'on utilise on peut utiliser la const magique __CLASS__
+
+    /**
+     * Enregistre notre autoloader
+     */
+    static function register(){
+        spl_autoload_register(array(__CLASS__, 'autoload'));
     }
 
-    public static function autoload($class_name): void
-    {
-        require "class/".$class_name.".php";
+    /**
+     * Inclue le fichier correspondant à notre classe
+     * @param $class string Le nom de la classe à charger
+     */
+    static function autoload($class){
+        if (strpos($class, __NAMESPACE__ . '\\') === 0){
+            $class = str_replace(__NAMESPACE__ . '\\', '', $class);
+            $class = str_replace('\\', '/', $class);
+            require 'class/' . $class . '.php';
+        }
     }
- 
 
 }

@@ -1,4 +1,6 @@
 <?php 
+namespace App;
+use PDO;
 class Database{
     private $db_name;
     private $db_user;
@@ -21,7 +23,7 @@ class Database{
             try{
                 $bdd = new PDO('mysql:host='.$this->db_host.';dbname='.$this->db_name.';charset=utf8',$this->db_user,$this->db_pass,[PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
                 $this->bdd = $bdd;
-            }catch(Exception $e){
+            }catch(\Exception $e){
                 die('Erreur: '.$e->getMessage());
             }
         }
