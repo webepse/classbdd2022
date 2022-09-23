@@ -53,6 +53,14 @@ class Database{
 
     }
 
+    public function addPost(string $title,string $content): bool
+    {
+        $req = $this->getBDD()->prepare("INSERT INTO posts(title, content, creation_date) VALUES(?,?,NOW())");
+        $req->execute([$title,$content]);
+        $req->closeCursor();
+        return true;
+    }
+
 
 
 }

@@ -7,7 +7,8 @@
 
     $menu = [
         "home"=>"home.php",
-        "article"=>"article.php"
+        "article"=>"article.php",
+        'add'=>"add.php"
     ];
 
     if(isset($_GET['action'])){
@@ -25,6 +26,23 @@
             }else{
                 $view = $menu[$_GET['action']];
             }
+
+        }elseif($_GET['action']=="addpost"){
+            if(isset($_POST['title']) && !empty($_POST['title']))
+            {
+                if(isset($_POST['content']) && !empty($_POST['content']))
+                {
+                    $title= htmlspecialchars($_POST['title']);
+                    $content = htmlspecialchars($_POST['content']);
+                    $db->addPost($title,$content);
+                    $view = $menu['home'];
+                }else{
+                    header("LOCATION:index.php?action=add&err=2");
+                }
+            }else{
+                header("LOCATION:index.php?action=add&err=1");
+            }
+
 
         }else{
             header("LOCATION:404.php");
