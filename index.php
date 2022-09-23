@@ -1,9 +1,38 @@
 <?php
-namespace App;
+    namespace App;
     require "class/Autoloader.php";
     Autoloader::register();
 
     $db = new Database('blog');
+
+    $menu = [
+        "home"=>"home.php",
+        "article"=>"article.php"
+    ];
+
+    if(isset($_GET['action'])){
+        if(array_key_exists($_GET['action'],$menu))
+        {
+            if($_GET['action']=="article")
+            {
+                if(isset($_GET['id']) AND !empty($_GET['id']))
+                {
+                    $id=htmlspecialchars($_GET['id']);
+                    $view = $menu['article'];
+                }else{
+                    header("LOCATION:404.php");
+                }
+            }else{
+                $view = $menu[$_GET['action']];
+            }
+
+        }else{
+            header("LOCATION:404.php");
+        }
+    }else{
+        $view = $menu['home'];
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -14,15 +43,8 @@ namespace App;
     <title>Document</title>
 </head>
 <body>
-    <?php foreach($db->query("SELECT * FROM posts",Article::class) as $post) : ?>
-        <div class="post">
-            <div class="date"><?= $post->creation_date ?></div>
-            <a href='<?= $post->getURL() ?>'><?= $post->title ?></a>
-            <div class="content">
-                <?= nl2br($post->getExtrait()) ?>
-            </div>
-        </div>
-
-    <?php endforeach; ?>
+    <?php 
+        require "pages/$view";
+    ?>
 </body>
 </html>

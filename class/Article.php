@@ -9,7 +9,7 @@ class Article{
      */
     public function getURL(): string
     {
-        return 'article.php?id='.$this->id;
+        return 'index.php?action=article&id='.$this->id;
     }
 
     /**
